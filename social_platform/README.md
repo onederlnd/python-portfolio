@@ -1,76 +1,129 @@
-Social Media API
+# Social Media Platform
 
-A Twitter-style social media API built with FastAPI. Users can create accounts, make posts, follow other users, and view their feed.
+A simple full-stack social media app built with FastAPI (backend) and vanilla JavaScript (frontend). Users can create accounts, post updates, follow each other, and view a feed of posts from themselves and those they follow.
 
-Features
+---
 
-Create users with username and bio
+## Features
 
-Make posts with timestamp
+- User accounts: Create a username, email, and bio.  
+- Posts: Users can write posts.  
+- Follow system: Follow and be followed by other users.  
+- Feed: View posts from yourself and users you follow.  
+- REST API: All functionality available via HTTP endpoints.  
+- Frontend: Simple HTML/JS interface for interacting with the API.  
 
-Follow other users
+---
 
-Fetch feed (posts by users you follow)
+## Project Structure
 
-Simple in-memory storage (replaceable with a database)
+social-platform/
+│
+├─ app/
+│   ├─ main.py          # FastAPI entry point
+│   ├─ models.py        # Pydantic models (User, Post)
+│   ├─ storage.py       # In-memory storage functions
+│   └─ routes.py        # API routes
+│
+├─ frontend/
+│   ├─ index.html       # Frontend interface
+│   └─ script.js        # Frontend logic (fetch API calls)
+│
+└─ README.md
 
-Installation
+---
 
-Clone the repository:
+## Installation
 
-git clone <your-repo-url>
-cd social-media-api
+1. Clone the repository:
 
-Create a virtual environment and activate it:
+git clone <repo-url>  
+cd social-platform
 
-python3 -m venv .venv
-source .venv/bin/activate # Linux/Mac
-.venv\Scripts\activate # Windows
+2. Create a virtual environment and activate it:
 
-Install dependencies:
+python -m venv .venv  
+source .venv/bin/activate   # Linux/macOS  
+.venv\Scripts\activate      # Windows  
+
+3. Install dependencies:
 
 pip install fastapi uvicorn
 
-Run the API
+---
+
+## Running the Backend
+
+Start the FastAPI server:
+
 uvicorn app.main:app --reload
 
-Open your browser or API client at: http://127.0.0.1:8000/docs
+The API will run at: http://127.0.0.1:8000
 
-/docs provides an interactive Swagger UI for testing all endpoints.
+You can also open the auto-generated docs at: http://127.0.0.1:8000/docs
 
-API Endpoints
-Users
+---
 
-POST /api/users — create a new user
+## Running the Frontend
 
-Body example:
+1. Open frontend/index.html in your browser.  
+2. The frontend communicates with the backend API at http://127.0.0.1:8000.  
+3. Use the interface to:  
+   - Create users  
+   - Make posts  
+   - Follow other users  
+   - View feeds  
 
-{
-"username": "johndoe",
-"email": "john@example.com
-",
-"bio": "Hello world!"
-}
+---
 
-Posts
+## API Endpoints
 
-POST /api/posts — create a new post
+Method | Endpoint | Description  
+--- | --- | ---  
+POST | /api/users | Create a new user  
+POST | /api/posts | Create a new post  
+GET  | /api/feed/{username} | Get the feed for a user  
+POST | /api/follow/{follower}/{following} | Follower follows another user  
 
-Body example:
+---
 
-{
-"author": "johndoe",
-"content": "This is my first post!"
-}
+## Example Usage
 
-Feed
+Create users:  
+POST /api/users {"username": "Charles", "email": "charles@example.com", "bio": "I want to be a real boy!"}  
+POST /api/users {"username": "Jennifer", "email": "jennifer@example.com", "bio": "Wife, mother, friend!"}
 
-GET /api/feed/{username} — fetch posts from users you follow
+Create posts:  
+POST /api/posts {"author": "Charles", "content": "Hey all! This is a cool app!"}  
+POST /api/posts {"author": "Jennifer", "content": "I don't know if anyone can see this, but HI!"}  
+POST /api/posts {"author": "Charles", "content": "Man, things have gotten pretty strange around here!"}
 
-Follow
+Follow users:  
+POST /api/follow/Charles/Jennifer  
+POST /api/follow/Jennifer/Charles
 
-POST /api/follow/{follower}/{following} — follow another user
+Get feed:  
+GET /api/feed/Charles  
+GET /api/feed/Jennifer
 
-Storage
+---
 
-Currently uses in-memory dictionaries. Perfect for testing and demos. You can replace with SQLite or PostgreSQL later.
+## Notes
+
+- Data is currently stored in-memory. Restarting the server will clear all users and posts.  
+- Designed for educational purposes and to demonstrate full-stack development skills.  
+
+---
+
+## Future Improvements
+
+- Add persistent storage with SQLite or PostgreSQL.  
+- Add authentication (JWT tokens or OAuth2).  
+- Style the frontend with CSS frameworks (Bootstrap, Tailwind).  
+- Add post likes, comments, and notifications.  
+
+---
+
+## License
+
+MIT License
