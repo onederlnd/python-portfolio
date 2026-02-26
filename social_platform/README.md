@@ -37,7 +37,8 @@ social-platform/
 
 1. Clone the repository:
 
-git clone <repo-url>  
+git clone https://github.com/onederlnd/python-portfolio.git
+
 cd social-platform
 
 2. Create a virtual environment and activate it:

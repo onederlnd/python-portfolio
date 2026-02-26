@@ -27,11 +27,11 @@ This tool collects student names and scores, calculates averages, identifies top
 
 1. clone the repository:
 
-git clone https://github.com/yourusername/practice-oop.git
+git clone https://github.com/onederlnd/python-portfolio.git
 
 2. navigate into the project folder:
 
-cd practice-oop
+cd student-score-tracker
 
 3. run the main program:
 

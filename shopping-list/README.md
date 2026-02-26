@@ -27,7 +27,7 @@ This tool is perfect for keeping your shopping organized and tracking items acro
 
 1. clone the repository:
 
-git clone https://github.com/yourusername/shopping-list.git
+git clone https://github.com/onederlnd/python-portfolio.git
 
 2. navigate into the project folder:
 
