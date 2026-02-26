@@ -79,7 +79,7 @@ def main():
     "5 - Load list\n" \
     "6 - Search list\n" \
     "7 - Clear list\n" \
-    "Type exit to close the app\n"
+    "Type exit to close the app"
     )
 
 menu_list = {
@@ -94,7 +94,7 @@ menu_list = {
 while True:
     """"""
     main()
-    command = input("Command: ")
+    command = input("> ")
     if command == "exit":
         print("Goodbye!")
         exit()

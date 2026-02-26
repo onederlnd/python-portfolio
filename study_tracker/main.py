@@ -67,11 +67,10 @@ def handle_menu(choice):
         do_action = NAV_MENU[choice]["nav_action"]
         do_action()
         
-
 def show_menu():
     for choice, data in NAV_MENU.items():
         nav_desc = data["nav_desc"]
-        print(f"{BOLD}{choice}{RESET} - {nav_desc}")
+        print(f"{BOLD}{choice}){RESET} {nav_desc}")
 
 def add_session(sess_date=None):
     print(F"\n{BOLD}{RED}================= ADD SESSION ================={RESET}")
@@ -141,9 +140,118 @@ def view_sessions(SESSION_LIST):
             print(f"     Note: {sess_note}")
 
 def edit_session(SESSION_LIST):
-    print("\nThis feature is not yet implemented\n")
-    pass
+    """
+    show numbered subjects
+    --> user selects"
+    --> print that subjects sessions numbered"""
+    subjects = list(SESSION_LIST.keys())
 
+    if not subjects:
+        print("No subjects to edit.")
+        return
+    
+    for i, subject in enumerate(subjects, 1):
+        print(f"{i}) {subject}")
+    
+    while True:
+        sub_choice = input("Choose a subject (#): ")
+        try:
+            sub_choice = int(sub_choice)
+            
+            if 1 <= sub_choice <= len(subjects):
+                index = sub_choice - 1
+                selected_subject = subjects[index]
+                break
+            else:
+                print("Choose a number from the list.")
+
+        except ValueError:
+            print("Try agan! Must be a number.")
+    
+    # ---- session list ----    
+    sessions = SESSION_LIST[selected_subject]
+    if not sessions:
+        print("This subject has no sessions yet.")
+        return
+    
+    print(f"\n{selected_subject} sessions:")
+
+    for i, s in enumerate(sessions, 1):
+        date_str = s["sess_date"].strftime("%m/%d/%Y")
+        print(f"{BOLD}{i}{RESET}) {date_str} - {s['sess_length']} min - {s['sess_note']}")
+    
+    # ---- session selection ----
+    while True:
+        try:
+            sess_choice = int(input("Choose a session (#): "))
+
+            if 1 <= sess_choice <= len(sessions):
+                sess_index = sess_choice - 1
+                selected_session = sessions[sess_index]
+                break
+            else:
+                print("Pick a number from the list.")
+        except ValueError:
+            print("Choose a number from the list.")
+    print(f"\n{BOLD}You selected:{RESET}")
+    print(f"{selected_session['sess_date'].strftime('%m/%d/%Y')} - "
+          f"{selected_session['sess_length']} min - {selected_session['sess_note']}")
+
+    # ---- edit session ----
+    print(f"\n{BOLD}Edit Options:{RESET}")
+    print(f"{BOLD}1){RESET} Length")
+    print(f"{BOLD}2){RESET} Date")
+    print(f"{BOLD}3){RESET} Notes")
+    print(f"{BOLD}4){RESET} Cancel")
+
+    while True:
+        # get edit choice
+        edit_choice = int(input("What would you lke to edit? "))
+        try:
+            if 1 <= edit_choice <= 4:
+                break
+            else:
+                print("Pick a number from the list.")
+        except:
+            print("Must be a number")
+    
+    if edit_choice == 1: # edit length
+        while True:
+            try:
+                new_length = int(input("Enter new session length (minutes): "))
+                if new_length > 0:
+                    selected_session["sess_length"] = new_length
+                    print("\nSession length updated.\n")
+                    break
+                else:
+                    print("Must be a number.")
+            except ValueError:
+                print("Must be a number.")
+        
+    elif edit_choice == 2: # edit date
+        from datetime import date
+
+        while True:
+            new_date = input("Enter new date (MM/DD/YYYY): ")
+            try:
+                month, day, year = map(int, new_date.split("/"))
+                selected_session["sess_date"] = date(year, month, day)
+                print("Session date updated.")
+                break
+            except:
+                print("Invalid format. Try MM/DD/YYYY.")
+
+    elif edit_choice == 3: # edit notes
+            new_note = input("Enter new note: ")
+            selected_session["sess_note"] = new_note
+            print("\nUpdating...", end="", flush=True)
+            time.sleep(2)
+            print(" done.\n")
+            time.sleep(2)
+            
+    elif edit_choice == 4: # cancel
+            print("\nEditing Canceled\n")
+            
 def session_stats():
     if not SESSION_LIST:
         print("\nNo sessions recorded")
