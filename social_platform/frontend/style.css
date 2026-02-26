@@ -1,0 +1,32 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1, h2 {
+  color: #333;
+}
+
+section {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+input {
+  margin: 5px 0;
+  padding: 5px;
+  width: 200px;
+}
+
+button {
+  padding: 5px 10px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+#feed-list div {
+  border-bottom: 1px solid #ddd;
+  padding: 5px 0;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Social App Frontend</title>
+  <script src="script.js" defer></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    section { margin-bottom: 30px; }
+    input, textarea { display: block; margin: 5px 0; width: 300px; }
+    button { margin-top: 5px; }
+    #feed-list div { border-bottom: 1px solid #ccc; padding: 5px 0; }
+  </style>
+</head>
+<body>
+
+<h1>Social App Frontend</h1>
+
+<section>
+  <h2>Create User</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="email" id="email" placeholder="Email">
+  <textarea id="bio" placeholder="Bio"></textarea>
+  <button onclick="createUser()">Create User</button>
+</section>
+
+<section>
+  <h2>Create Post</h2>
+  <input type="text" id="post-username" placeholder="Author Username">
+  <textarea id="post-content" placeholder="Post Content"></textarea>
+  <button onclick="createPost()">Create Post</button>
+</section>
+
+<section>
+  <h2>Follow User</h2>
+  <input type="text" id="follower" placeholder="Follower Username">
+  <input type="text" id="followee" placeholder="User to Follow">
+  <button onclick="followUser()">Follow</button>
+</section>
+
+<section>
+  <h2>Load Feed</h2>
+  <input type="text" id="feed-username" placeholder="Username">
+  <button onclick="loadFeed()">Load Feed</button>
+  <div id="feed-list"></div>
+</section>
+
+</body>
+</html>

@@ -1,104 +1,48 @@
-# Shopping List with Categories
-# 
-# A command-line shopping list manager that allows users to organize grocery items
-# by category and save/load them from a file.
-# 
-# ---
-# 
-import os
-import sys
+# main.py
+from shopping import add_item, remove_item, view_list, search_item, clear_list
+from persistence import save_file, load_file
 
-filename = "shopping_list.txt"
-shopping_list = {}
+FILENAME = "shopping_list.json"
+shopping_list = load_file(FILENAME)
 
-def handle_command(menu_list):
-    for option in menu_list:
-        option
-def clear():
-    """ clear all items"""
-    shopping_list.clear()
-def add_item():
-    product = input("Product name: ")
-    category = input("Category (dairy, produce, etc): ")
-    quantity = input("How many? ")
+# --- menu options mapping
+MENU_LIST = {
+    "1": lambda: view_list(shopping_list),
+    "2": lambda: add_item(shopping_list),
+    "3": lambda: remove_item(shopping_list),
+    "4": lambda: save_file(FILENAME, shopping_list),
+    "5": lambda: shopping_list.update(load_file(FILENAME)),
+    "6": lambda: search_item(shopping_list),
+    "7": lambda: clear_list(shopping_list),
+}
 
-    shopping_list[product] = {"category": category, "quantity": quantity}
-    return shopping_list
-    
-def remove_item():
-    """ remove item """
-    product = input("Which item do you want to delete? ")
-    shopping_list.pop(product)
-    print(f"{product} has been deleted!")
-def search():
-    """ search and find items"""
-    search_item = input("Search for: ")
-    print("YOU'RE SEARCHING FOR: ", search_item)
-    if search_item in shopping_list:
-        print(f"search found! {search_item}")
-    else:
-        print("no item found")
-def view_list(shopping_list):
-    """ show current shopping list """
-
-    print("Current shopping list:")
-
-    for product, data in shopping_list.items():
-        quantity = data["quantity"]
-        category = data["category"]
-        print(f"{quantity} - {product} ({category})")
-
-    if not shopping_list:
-        print("Your shopping list is empty!")
-
-def save_file(filename):
-    """ saves a shopping list """
-    try:
-        with open(filename, "w") as f:
-            f.write(str(shopping_list))
-            print("Shopping list saved!")
-    except Exception as e:
-        print(f"[ERROR] Unable to save file: {e} ")
-
-# - Load list from file
-def load_file(filename):
-    """ load a shopping list file """
-    try:
-        with open(filename, "r") as f:
-            shopping_list = f.readlines()
-            return shopping_list
-    except Exception as e:
-            print(f"[ERROR] Unable to save file: {e} ")
-
-def main():
-    print("What would you like to do? (Choose a number)\n" \
-    "1 - View shopping list\n" \
-    "2 - Add item\n" \
-    "3 - Remove item\n" \
-    "4 - Save list\n" \
-    "5 - Load list\n" \
-    "6 - Search list\n" \
-    "7 - Clear list\n" \
-    "Type exit to close the app"
+# --- main menu display
+def show_menu():
+    print(
+        "\nwhat would you like to do? (choose a number)\n"
+        "1 - view shopping list\n"
+        "2 - add item\n"
+        "3 - remove item\n"
+        "4 - save list\n"
+        "5 - load list\n"
+        "6 - search list\n"
+        "7 - clear list\n"
+        "type exit to close the app\n"
     )
 
-menu_list = {
-    "1": lambda: view_list(shopping_list),
-    "2": lambda: add_item(),
-    "3": lambda: remove_item(),
-    "4": lambda: save_file(filename),
-    "5": lambda: load_file(filename),
-    "6": lambda: search(),
-    "7": lambda: clear(),
-}
-while True:
-    """"""
+# --- main program loop
+def main():
+    while True:
+        show_menu()
+        command = input("> ").strip().lower()
+        if command == "exit":
+            save_file(FILENAME, shopping_list)
+            print("goodbye!")
+            break
+        elif command in MENU_LIST:
+            MENU_LIST[command]()
+        else:
+            print("invalid command")
+
+if __name__ == "__main__":
     main()
-    command = input("> ")
-    if command == "exit":
-        print("Goodbye!")
-        exit()
-    if command in menu_list:
-        menu_list[command]()
-    else:
-        print("Invalid command")
